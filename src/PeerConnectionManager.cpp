@@ -1256,7 +1256,12 @@ bool PeerConnectionManager::AddStreams(webrtc::PeerConnectionInterface *peer_con
 	}
 
 	// compute stream label removing space because SDP use label
-	std::string streamLabel = this->sanitizeLabel(videourl + "|" + audiourl + "|" + optcapturer);
+	std::string streamLabel = "";
+	if(opts.find("streamid") != opts.end()){
+		streamLabel = opts["streamid"];
+	}else{
+		streamLabel = this->sanitizeLabel(videourl + "|" + audiourl + "|" + optcapturer);
+	}
 
 	bool existingStream = false;
 	{
